@@ -2,23 +2,23 @@
 ==================
 
 
-Face it -- log processing is a riot. Everyone wants the log processing jobs because everyone knows
-that log processing is the most fun you can have outside of a glass of white wine and a bubble bath.
+Face it -- log processing is a riot. Everyone wants the log processing jobs because everyone knows that log processing is the most fun you can have outside of a glass of white wine and a bubble bath. 
+
 Everyone, that is, except for Janet.
 
-Janet's got a log processing problem and she needs help. She's got a very important program whose
-sole purpose is to predict which city Gamera, and other Gameralike monsters, will attack next.
+Janet's got a log processing problem and she needs help. She's got a very important program whose sole purpose is to predict which city Gamera, and other Gameralike monsters, will attack next.
 
-(It will later be extended to support other flying creatures such as Godzillas and Flying King Kongs.
-Mothra's case, though, is trivial -- whichever city is the best lit.)
+(It will later be extended to support other flying creatures such as Godzillas and Flying King Kongs. Mothra's case, though, is trivial -- whichever city is the best lit.)
 
-Her datafile is a stream of events and times that represent cities that Gamera has destroyed in
-the past:
+Her datafile is a stream of events and times that represent cities that Gamera has destroyed in the past:
 
+```
 1363359470.629802 San Bernardino, CA, USA
 1363359471.848128 Paris, TX, USA
 1363359468.727172 Verona, Italy
 1363359440.991101 Kyoto, Japan
+```
+
 Her processing loop looks like this:
 
 ```
@@ -33,6 +33,7 @@ Can you write her a method that minimizes processing time and memory use but ret
 
 You can use this program to generate sample logfiles:
 
+```
 import time
 import random
 
@@ -50,3 +51,4 @@ for tick in xrange(TICKS):
     now = start + tick
     for num_line in xrange(LINES_PER_TICK):
     print(log_line(now))
+```
