@@ -1,0 +1,1 @@
+These are a collection of puzzles taken from SwiftStack's [puzzles page](http://swiftstack.com/jobs/puzzles/). The SwiftStack folks love Python, and the code for the first two uses it explictly, but I figured I'd branch out for the third, so it's written in Go.
