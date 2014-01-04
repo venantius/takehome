@@ -80,13 +80,21 @@ class TestSearch2(tornado.testing.AsyncHTTPTestCase):
         results = json.loads(x.buffer.read())
         self.assertEqual(results['results'], ["Arkansas"])
     
-    def testGeta(self):
+    def testGetAlam(self):
         """
-        Test what happens when we search for 'a'
+        Test what happens when we search for 'Alam'
         """
-        x = self.fetch('/search/a', method="GET")
+        x = self.fetch('/search/Alam', method="GET")
         results = json.loads(x.buffer.read())
-        self.assertEqual(results['results'], ["Alabama", "Arkansas"])
+        self.assertEqual(results['results'], ["Alabama"])
+
+    def testGetAlaba(self):
+        """
+        Test what happens when we search for 'Alaba'
+        """
+        x = self.fetch('/search/Alaba', method="GET")
+        results = json.loads(x.buffer.read())
+        self.assertEqual(results['results'], ["Alabama"])
 
     def testGetBanana(self):
         """
@@ -95,6 +103,7 @@ class TestSearch2(tornado.testing.AsyncHTTPTestCase):
         x = self.fetch('/search/Banana', method="GET")
         results = json.loads(x.buffer.read())
         self.assertEqual(results['results'], [])
+
 class TestSearch3(tornado.testing.AsyncHTTPTestCase):
     """
     Test extension 3 of our search application

@@ -13,6 +13,7 @@ import tornado.ioloop
 import tornado.web
 
 from collections import defaultdict
+from string import letters # [a-zA-Z]
 
 class FormHandler(tornado.web.RequestHandler):
     """
@@ -28,11 +29,10 @@ class AddHandler(tornado.web.RequestHandler):
     """
     Handler for adding strings
     """
-    def initialize(self, substring_dict, substring_set):
+    def initialize(self, substring_dict):
         self.substring_dict = substring_dict
-        self.substring_set = substring_set
 
-    def add_substrings(self, string):
+    def add_substrings(self, variant_string, actual_string):
         """
         Calculates all substrings for the given string. Using each substring as 
         the key, adds the original string to the dictionary's set (in the value 
@@ -41,47 +41,49 @@ class AddHandler(tornado.web.RequestHandler):
         Useful for O(1) lookups of search terms, though a little expensive here
         in the computation.
         """
-        for i in range(len(string)):
-            for j in range(len(string[i:])):
-                self.substring_dict[string[i:len(string) - j]].add(string)
-                self.substring_set.add(string[i:len(string) - j])
+        for i in range(len(variant_string)):
+            for j in range(len(variant_string[i:])):
+                self.substring_dict[variant_string[i:len(variant_string) - j]]\
+                        .add(actual_string)
+
+    def generate_variants(self, input_string, alphabet=letters):
+        """
+        For each letter in the input string, substitute all possible letters
+        in that space and return a list of all words with such substitutions.
+
+        By default, uses letter substitution (i.e. [a-zA-Z]), but other 
+        alphabets can easily be substituted in
+        """
+        strings = []
+        for x in range(len(input_string)):
+            for char in letters:
+                strings.append(input_string[:x] + char + input_string[x+1:])
+        return strings
 
     def post(self):
         self.set_header("Content-Type", "text/plain")
         self.write("You wrote " + self.get_argument("string"))
-        self.add_substrings(self.get_argument("string"))
+        original_string = self.get_argument("string")
+        string_variants = self.generate_variants(original_string)
+        for string_variant in string_variants:
+            self.add_substrings(string_variant, original_string)
 
 class SearchHandler(tornado.web.RequestHandler):
     """
     A handler to return search results
     """
-    def initialize(self, substring_dict, substring_set):
+    def initialize(self, substring_dict):
         self.substring_dict = substring_dict
-        self.substring_set = substring_set
 
-    def fuzzy_match(self, search_substring):
-        for substring in self.substring_set:
-            if difflib.SequenceMatcher(None, search_substring, substring)\
-                    .ratio() > 0.6:
-                return substring
-        return None
-
-    def get(self, search_substring):
-        if len(self.substring_dict[search_substring]) > 0:
-            self.write(json.dumps({'results': sorted(
-                self.substring_dict[search_substring])}))
-        else:
-            self.write(json.dumps({'results': sorted(
-                self.substring_dict[self.fuzzy_match(search_substring)])}))
+    def get(self, substring):
+        self.write(json.dumps({'results': sorted(self.substring_dict[substring])}))
 
 substring_dict = defaultdict(set)
-substring_set = set()
 application = tornado.web.Application([
     (r"/formsubmit", FormHandler),
-    (r"/add", AddHandler, dict(substring_dict=substring_dict,
-        substring_set=substring_set)),
+    (r"/add", AddHandler, dict(substring_dict=substring_dict)),
     (r"/search/([a-zA-Z]+)", SearchHandler, 
-        dict(substring_dict=substring_dict, substring_set=substring_set)),
+        dict(substring_dict=substring_dict)),
 ])
 
 if __name__ == "__main__":
