@@ -12,9 +12,11 @@ A server that does efficient instant full text search (e.g.: POST "Alabama" to /
 Requirements
 ------------
  - Tornado
- - Requests (for tests only)
+
+Extras
+------
+ - search2\_suffixarray -- does fuzzy text searching using a suffix array implementation based on one of the algorithms referenced [here](http://www.cs.umd.edu/grad/scholarlypapers/papers/ghodsi.pdf)
 
 Todo
 ----
- - Update search2 to use a suffix array
  - Update search3 to use golomb/rice codes
