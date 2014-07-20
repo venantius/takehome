@@ -1,5 +1,7 @@
 This repository contains various puzzles, homework assignments, or take-home interview questions I've been asked. I'll try to keep this README.md file up to date with details on what can be found in the various subfolders.
 
+All code here is available under the Eclipse license.
+
 /readyforzero
 -------------
 Small web applications I've written for ReadyForZero's [ithayer](https://github.com/ithayer)
