@@ -36,7 +36,7 @@
   [x]
   (filter #(> (second %) 1)
     (frequencies
-      (reduce concat ;; get all our vectors of bigrams into a single seq
+      (reduce concat ;; turn our seq of vectors into a seq of bigram-sets
         (map get-bigram-vector
            (map split-on-whitespace
               (split-by-punctuation
