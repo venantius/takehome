@@ -41,3 +41,11 @@
            (map split-on-whitespace
               (split-by-punctuation
                 (clojure.string/lower-case x))))))))
+
+(defn answer
+  "Pretty-prints bigram-frequency results"
+  [x]
+  (doseq [bigram (bigram-frequency x)]
+    (print (clojure.string/join " " (first bigram)))
+    (print ": ")
+    (println (second bigram))))
