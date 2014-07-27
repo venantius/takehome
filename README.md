@@ -2,6 +2,10 @@ This repository contains various puzzles, homework assignments, or take-home int
 
 All code here is available under the Eclipse license.
 
+/aclima
+-------
+A Clojure solution to counting bigrams of frequency > 1, with splitting on punctuation. Done for [Aclima](http://www.aclimalabs.com/)
+
 /readyforzero
 -------------
 Small web applications I've written for ReadyForZero's [ithayer](https://github.com/ithayer)
